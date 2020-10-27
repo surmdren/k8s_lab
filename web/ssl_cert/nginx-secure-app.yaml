@@ -35,9 +35,17 @@ spec:
       - name: secret-volume
         secret:
           secretName: nginxsecret
+          items:
+          - key: tls.crt
+            path: tls.crt
+          - key: tls.key
+            path: tls.key
       - name: configmap-volume
         configMap:
           name: nginxconfigmap
+          items:
+          - key: default.conf
+            path: default.conf
       containers:
       - name: nginxhttps
         image: nginx:v1 
@@ -45,7 +53,7 @@ spec:
         - containerPort: 443
         - containerPort: 80
         volumeMounts:
-        - mountPath: /etc/nginx/ssl
+        - mountPath: "/etc/nginx/ssl"
           name: secret-volume
-        - mountPath: /etc/nginx/conf.d
+        - mountPath: "/etc/nginx/conf.d"
           name: configmap-volume
