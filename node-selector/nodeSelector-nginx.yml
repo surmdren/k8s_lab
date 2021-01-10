@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx
+  namespace: selector 
+spec:
+  selector:
+    matchLabels:
+      run: my-nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: my-nginx
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions: 
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - kmaster.example.com
+      containers:
+      - name: my-nginx
+        image: nginx:v1
+        ports:
+        - containerPort: 80
+
