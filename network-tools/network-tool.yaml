@@ -1,25 +1,27 @@
-apiVersion: apps/v1
-kind: Deployment
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: network
+  labels:
+    name: network
+
+---
+apiVersion: v1
+kind: Pod 
 metadata:
   name: network-tool
+  namespace: network
 spec:
-  selector:
-    matchLabels:
-      run: network-tool
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        run: network-tool
-    spec:
-      podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: In
-                values:
-                - kmaster.example.com
-      containers:
-      - name: network-tool
-        image: hkappdlv006.asia.pwcinternal.com:443/network/network-multitool:v1
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - kmaster.example.com 
+  containers:
+  - name: network-tool
+    image: network-multitool:v1
