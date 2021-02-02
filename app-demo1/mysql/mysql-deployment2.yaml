@@ -34,7 +34,11 @@ spec:
               - key: kubernetes.io/hostname
                 operator: In
                 values:
+<<<<<<< HEAD
                 - kworker1.example.com
+=======
+                - kworker2.example.com
+>>>>>>> a2e8b495003566eab5dc08ce7243b5f0a8f5dc21
       containers:
       - env:
         - name: MYSQL_ROOT_PASSWORD
@@ -50,6 +54,10 @@ spec:
           name: vol1
       volumes:
       - hostPath:
+<<<<<<< HEAD
           path: /data1/mysql/db1
+=======
+          path: /mnt/rbd/mysql
+>>>>>>> a2e8b495003566eab5dc08ce7243b5f0a8f5dc21
           type: ""
         name: vol1
