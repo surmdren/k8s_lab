@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service 
+  namespace: mongo
+  labels:
+    app: mongo
+spec:
+  ports:
+  - port: 27017
+    name: mongo
+  clusterIP: None
+  selector:
+    app: mongo
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+  namespace: mongo 
+spec:
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: mongo
+  serviceName: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - kmaster.example.com 
+                - kworker1.example.com
+                - kworker2.example.com
+      containers:
+      - command:
+        - mongod
+        - --config
+        - /etc/mongo/mongo.conf
+        image: mongo:3.6.5
+        imagePullPolicy: IfNotPresent
+        name: mongo
+        ports:
+        - containerPort: 27017
+          name: mongoport
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /etc/mongo/mongo.conf
+          name: mongo-conf
+          subPath: mongo.conf
+        - mountPath: /var/lib/mongodb
+          name: mongo-db
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 256
+          items:
+          - key: mongo-conf
+            path: mongo.conf
+          name: mongo-conf
+          optional: false
+        name: mongo-conf
+      - hostPath:
+          path: /data1/mongo 
+          type: ""
+        name: mongo-db
+  updateStrategy:
+    type: RollingUpdate
+
