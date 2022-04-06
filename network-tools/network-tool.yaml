@@ -21,7 +21,7 @@ spec:
           - key: kubernetes.io/hostname
             operator: In
             values:
-            - kmaster.example.com 
+            - kmaster
   containers:
   - name: network-tool
-    image: network-multitool:v1
+    image: praqma/network-multitool 
