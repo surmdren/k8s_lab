@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-cli
+  namespace: infotainment-backend-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+        app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          ports:
+            - name: http
+              containerPort: 6379
+              protocol: TCP
+          env:
+            - name: database
+              valueFrom:
+                secretKeyRef:
+                  name: dev-vehicle-calendar-office365-cache
+                  key: database
+            - name: host
+              valueFrom:
+                secretKeyRef:
+                  name: dev-vehicle-calendar-office365-cache
+                  key: host
+            - name: jdbcUrl
+              valueFrom:
+                secretKeyRef:
+                  name: dev-vehicle-calendar-office365-cache
+                  key: jdbcUrl
+            - name: redis_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dev-vehicle-calendar-office365-cache
+                  key: password
+            - name: port
+              valueFrom:
+                secretKeyRef:
+                  name: dev-vehicle-calendar-office365-cache
+                  key: port
+            - name: username
+              valueFrom:
+                secretKeyRef:
+                  name: dev-vehicle-calendar-office365-cache
+                  key: username
+          resources:
+            limits:
+              cpu: '1'
+              memory: 1G
+            requests:
+              cpu: 500m
+              memory: 512M
