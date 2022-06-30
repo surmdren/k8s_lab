@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-helloworld
+  labels:
+    helm.sh/chart: helloworld-0.1.0
+    app.kubernetes.io/name: helloworld
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: helloworld
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: helloworld
+        app.kubernetes.io/instance: release-name
+    spec:
+      imagePullSecrets:
+        - name: acr-secret
+      securityContext:
+        {}
+      containers:
+        - name: helloworld
+          securityContext:
+            {}
+          image: "tutorialacr123.azurecr.io/hello-world:v1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {}
