@@ -24,32 +24,32 @@ spec:
             - name: database
               valueFrom:
                 secretKeyRef:
-                  name: prod-vehicle-calendar-office365-db
+                  name: prod-vehicle-music-apple-auth-db-replica
                   key: database
             - name: host
               valueFrom:
                 secretKeyRef:
-                  name: prod-vehicle-calendar-office365-db
+                  name: prod-vehicle-music-apple-auth-db-replica
                   key: host
             - name: jdbcUrl
               valueFrom:
                 secretKeyRef:
-                  name: prod-vehicle-calendar-office365-db
+                  name: prod-vehicle-music-apple-auth-db-replica
                   key: jdbcUrl
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: prod-vehicle-calendar-office365-db
+                  name: prod-vehicle-music-apple-auth-db-replica
                   key: password
             - name: port
               valueFrom:
                 secretKeyRef:
-                  name: prod-vehicle-calendar-office365-db
+                  name: prod-vehicle-music-apple-auth-db-replica
                   key: port
             - name: username
               valueFrom:
                 secretKeyRef:
-                  name: prod-vehicle-calendar-office365-db
+                  name: prod-vehicle-music-apple-auth-db-replica
                   key: username
           resources:
             limits:
