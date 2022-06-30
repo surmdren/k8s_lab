@@ -36,7 +36,7 @@ spec:
                 secretKeyRef:
                   name: prod-vehicle-calendar-office365-db
                   key: jdbcUrl
-            - name: password
+            - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: prod-vehicle-calendar-office365-db
@@ -51,3 +51,10 @@ spec:
                 secretKeyRef:
                   name: prod-vehicle-calendar-office365-db
                   key: username
+          resources:
+            limits:
+              cpu: '1'
+              memory: 1G
+            requests:
+              cpu: 500m
+              memory: 512M
