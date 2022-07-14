@@ -1,0 +1,4 @@
+type: s3
+config:
+  bucket: thanos-metrics-s3storage1
+  endpoint: s3.us-west-2.amazonaws.com
