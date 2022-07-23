@@ -1,0 +1,26 @@
+prometheus:
+  serviceAccount:
+    create: false
+    name: "prometheus-prometheus-oper-prometheus"
+  prometheusSpec:
+    image:
+      repository: quay.io/prometheus/prometheus
+      tag: v2.36.1
+      sha: ""
+    thanos:
+      baseImage: quay.io/thanos/thanos
+      version: v0.24.0
+      objectStorageConfig:
+        key: thanos-storage-config.yaml
+        name: thanos-storage-config
+alertmanager:
+  enabled: true
+  alertmanagerSpec:
+    image:
+      repository: quay.io/prometheus/alertmanager
+      tag: v0.24.0
+      sha: ""
+grafana:
+  enabled: true
+  iamge: 
+    repository: grafana/grafana

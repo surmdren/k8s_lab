@@ -5,9 +5,9 @@ metadata:
     app.kubernetes.io/component: query-layer
     app.kubernetes.io/instance: thanos-query
     app.kubernetes.io/name: thanos-query
-    app.kubernetes.io/version: v0.24.0
+    app.kubernetes.io/version: v0.26.0
   name: thanos-query
-  namespace: monitoring 
+  namespace: thanos
 spec:
   replicas: 1
   selector:
@@ -21,7 +21,7 @@ spec:
         app.kubernetes.io/component: query-layer
         app.kubernetes.io/instance: thanos-query
         app.kubernetes.io/name: thanos-query
-        app.kubernetes.io/version: v0.24.0
+        app.kubernetes.io/version: v0.26.0
     spec:
       affinity:
         podAntiAffinity:
@@ -34,7 +34,7 @@ spec:
                   values:
                   - thanos-query
               namespaces:
-              - monitoring
+              - thanos
               topologyKey: kubernetes.io/hostname
             weight: 100
       containers:
@@ -42,19 +42,34 @@ spec:
         - query
         - --grpc-address=0.0.0.0:10901
         - --http-address=0.0.0.0:9090
-        - --log.level=info
+        - --log.level=debug
         - --log.format=logfmt
         - --query.replica-label=prometheus_replica
         - --query.replica-label=rule_replica
-        - --store=thanos-store.monitoring.svc.cluster.local:10901 
-        - --store=prometheus-operated.monitoring.svc.cluster.local:10901
+        - --store=dnssrv+_grpc._tcp.thanos-receive.thanos.svc.cluster.local
+        - --store=dnssrv+_grpc._tcp.thanos-rule.thanos.svc.cluster.local
+        - --store=dnssrv+_grpc._tcp.thanos-sidecar.thanos.svc.cluster.local
+        - --store=dnssrv+_grpc._tcp.thanos-store.thanos.svc.cluster.local
+        - --store=dnssrv+_grpc._tcp.thanos-receive-default.thanos.svc.cluster.local
+        - --store=dnssrv+_grpc._tcp.thanos-receive-region-1.thanos.svc.cluster.local
+        - --store=dnssrv+_grpc._tcp.thanos-store-0.thanos.svc.cluster.local
+        - --store=dnssrv+_grpc._tcp.thanos-store-1.thanos.svc.cluster.local
+        - --store=dnssrv+_grpc._tcp.thanos-store-2.thanos.svc.cluster.local
+        - --query.timeout=5m
+        - --query.lookback-delta=15m
+        - |-
+          --tracing.config="config":
+            "sampler_param": 2
+            "sampler_type": "ratelimiting"
+            "service_name": "thanos-query"
+          "type": "JAEGER"
         - --query.auto-downsampling
         env:
         - name: HOST_IP_ADDRESS
           valueFrom:
             fieldRef:
               fieldPath: status.hostIP
-        image: quay.io/thanos/thanos:v0.24.0
+        image: quay.io/thanos/thanos:v0.26.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 4
@@ -83,5 +98,5 @@ spec:
       securityContext:
         fsGroup: 65534
         runAsUser: 65534
-      serviceAccountName: prometheus-prometheus-oper-prometheus 
+      serviceAccountName: thanos-query
       terminationGracePeriodSeconds: 120
