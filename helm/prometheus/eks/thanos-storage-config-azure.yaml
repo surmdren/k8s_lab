@@ -1,0 +1,6 @@
+type: AZURE
+config:
+  storage_account: "thanosmetrics1"
+  storage_account_key: ""
+  container: "thanos"
+  max_retries: 0
