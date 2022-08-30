@@ -4,6 +4,10 @@ prometheus:
       repository: quay.io/prometheus/prometheus
       tag: v2.36.1
       sha: ""
+    externalLabels: 
+      geo: japan
+      region: east
+      cluster: aks01
     thanos:
       baseImage: quay.io/thanos/thanos
       version: v0.24.0
@@ -21,3 +25,4 @@ grafana:
   enabled: true
   iamge: 
     repository: grafana/grafana
+

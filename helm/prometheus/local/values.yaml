@@ -1,0 +1,13 @@
+prometheus:
+  prometheusSpec:
+    image:
+      repository: quay.io/prometheus/prometheus
+      tag: v2.36.1
+      sha: ""
+    resources: 
+      limits:
+        cpu: 500m
+        memory: 500Mi
+      requests:
+        cpu: 200m
+        memory: 200Mi
