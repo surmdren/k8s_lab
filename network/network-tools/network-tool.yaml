@@ -21,7 +21,14 @@ spec:
           - key: kubernetes.io/hostname
             operator: In
             values:
-            - kmaster
+            -  ip-10-115-36-205.cn-north-1.compute.internal
   containers:
   - name: network-tool
     image: praqma/network-multitool 
+    resources:
+          limits:
+            cpu: 50m
+            memory: 50Mi
+          requests:
+            cpu: 20m
+            memory: 20Mi
