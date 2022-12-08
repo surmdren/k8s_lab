@@ -1,0 +1,16 @@
+controller:
+  name: controller
+  config:
+    enable-modsecurity: "true"
+    enable-owasp-modsecurity-crs: "true"
+  service:
+    externalTrafficPolicy: "Cluster"
+    annotations: 
+      service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '60'
+      service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'
+      service.beta.kubernetes.io/aws-load-balancer-type: nlb
+  replicaCount: 3
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
