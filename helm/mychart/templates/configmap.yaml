@@ -5,3 +5,12 @@ metadata:
 data:
   myvalue: "Hello World"
   salad: {{ .Values.global.salad }}
+
+
+{{- if .Values.ports }}
+  {{- print "ports:" | nindent 2 }}
+  {{- range .Values.ports }}
+    - number: {{ . }}
+      protocol: http
+  {{- end }}
+{{- end }}
