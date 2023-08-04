@@ -1,0 +1,15 @@
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: primary-deployment
+  labels:
+    name: primary-deployment
+
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: canary-deployment
+  labels:
+    name: canary-deployment

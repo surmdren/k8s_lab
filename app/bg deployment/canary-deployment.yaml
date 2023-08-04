@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: canary-deployment
+spec:
+  replicas: 1  # Adjust the number of replicas as per your requirement
+  selector:
+    matchLabels:
+      app: my-app
+      tier: canary
+  template:
+    metadata:
+      labels:
+        app: my-app
+        tier: canary
+    spec:
+      containers:
+      - name: my-app
+        image: nginx:v2
+        ports:
+        - containerPort: 8080  # Assuming your app listens on port 8080

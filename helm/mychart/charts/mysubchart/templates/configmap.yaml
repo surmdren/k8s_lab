@@ -5,3 +5,4 @@ metadata:
 data:
   dessert: {{ .Values.dessert }}
   salad: {{ .Values.global.salad }}
+

@@ -1,17 +1,17 @@
----
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: network
-  labels:
-    name: network
+# ---
+# kind: Namespace
+# apiVersion: v1
+# metadata:
+#   name: network
+#   labels:
+#     name: network
 
 ---
 apiVersion: v1
 kind: Pod 
 metadata:
   name: network-tool
-  namespace: network
+  namespace: monitoring
 spec:
   affinity:
     nodeAffinity:
@@ -21,7 +21,7 @@ spec:
           - key: kubernetes.io/hostname
             operator: In
             values:
-            -  ip-10-115-36-205.cn-north-1.compute.internal
+            -  ip-10-115-105-138.cn-north-1.compute.internal
   containers:
   - name: network-tool
     image: praqma/network-multitool 
