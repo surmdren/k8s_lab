@@ -1,0 +1,9 @@
+configMapGenerator:
+- name: example-configmap-1
+  files:
+  - application.properties
+- name: example-configmap-2
+  literals:
+  - FOO=Bar
+
+namePrefix: test-
