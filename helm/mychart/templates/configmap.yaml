@@ -5,12 +5,11 @@ metadata:
 data:
   myvalue: "Hello World"
   salad: {{ .Values.global.salad }}
-
-
-{{- if .Values.ports }}
-  {{- print "ports:" | nindent 2 }}
-  {{- range .Values.ports }}
-    - number: {{ . }}
-      protocol: http
-  {{- end }}
-{{- end }}
+  toppings: |-
+    {{- range $.Values.pizzaToppings }}
+    - {{ . | title | quote }}
+    {{- end }}    
+  sizes: |-
+    {{- range tuple "small" "medium" "large" }}
+    - {{ . | title | quote }}
+    {{- end }}  

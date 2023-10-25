@@ -12,8 +12,3 @@ mysubchart:
 
 global:
   salad: caesar
-
-
-ports:
-  - 80
-  - 8080
