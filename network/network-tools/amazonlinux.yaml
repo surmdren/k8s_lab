@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: amazonlinux
+  name: amazonlinux
+  namespace: monitoring
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - ip-10-114-200-70.cn-north-1.compute.internal
+  containers:
+  - image: 609996596963.dkr.ecr.cn-north-1.amazonaws.com.cn/aws-cli
+    name: amazonlinux
+    command: ["/bin/sleep", "3650d"]
+    resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 20m
+            memory: 20Mi
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
